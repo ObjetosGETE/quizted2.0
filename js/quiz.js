@@ -1,3 +1,7 @@
+// $.getScript("perguntas.js", function() {
+//     alert("Script");
+//  });
+
 $(function (){
     init();
     montar_slides();

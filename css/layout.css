@@ -1,24 +1,15 @@
-:root{
-  --cor-textos: #193752;
-  --cor-titulo:rgb(255, 255, 255);
-  --font-textos: 'Archivo Narrow', sans-serif;
-  --font-titulo: 'Archivo Black', sans-serif;
-  --paletta-amarelo-base: #E5BC5E;
-  --paletta-amarelo-hover: #c5a04b;
-  --paletta-azul-base: #193752;
-  --paletta-azul-hover: #2b577c;
-  --paletta-verde-claro: #8FC4B6;
-  --paletta-verde-meiotom: #69A696;
-  --paletta-verde-escuro: #3D796A;
-  --feedback-positivo: #7ED957;
-  --feedback-negativo: #FF7C7C;
-}
+@import "custom.css";
+
 html, body {
     height: 100%;
 }
 
 body {
-    background: url(../img/bg-desk.png) top center / cover fixed no-repeat #333;
+    background-position: top center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-color: #333;
     font-size: 26px;
 }
 .bto-nav, .bto-nav-reiniciar {
@@ -69,12 +60,7 @@ h2 {
   padding-top: 96%;
   display: block;
 }
-.thumbs-up {
-  background: url(../img/thumb-up.png) top left / 100% auto no-repeat;
-}
-.thumbs-down {
-  background: url(../img/thumb-down.png) top left / 100% auto no-repeat;
-}
+
 .texto-feedback.container p {
   text-align: left;
 }
@@ -176,7 +162,6 @@ header.senac {
     position: relative;
     overflow: hidden;
     height: 80px;
-    background-image: url(../img/bg-topo-logobg.png), url(../img/topo.jpg);
     background-position: right,center;
     background-repeat: no-repeat, no-repeat;
     background-size: contain, cover;
@@ -227,11 +212,7 @@ header.senac {
     }
   }
   @media only screen and (max-width: 991px){
-    body {
-      background: url(../img/bg-mobile.png) top center / cover fixed no-repeat #333;
-      font-size: 26px;
-    }
-     #top-quiz{
+    #top-quiz{
       padding-left: 20px;
       padding-right: 20px;
       padding-bottom: 20px;
@@ -272,12 +253,6 @@ header.senac {
   vertical-align:middle;
 }
 
-#sncload {
-  width: 234px;
-  height: 234px;
-  display: inline-block;
-  background-image: url("../img/senac_loader.png");
-  animation: sprite .9s steps(6) infinite;
-}
+
 
   
