@@ -63,7 +63,15 @@ let cont_perguntas = function(){
 // usados no quiz
 // por exemplo, slides com perguntas e respostas
 // e onde eles devem ser inseridos 
-let template = function (i){
+let templates = function (i, type){
+    switch(perguntas[i].type)
+    {
+        
+    }
+    
+
+}
+let templateQuiz = function (i){
     destino = "#top-slides";
     let topSlidePai = $("<div></div>");
     if(i > 0){
@@ -98,16 +106,15 @@ let template = function (i){
     
     $(destino).append(topSlidePai);
 }
-
 let montar_slides = function (){
     for(i=0; i <= nro_perguntas-1; i++){
-        template(i);
+        templates(i);
     }
     
 }
+
 // retorna o número de perguntas que o aluno precisa responder
 // de acordo com o perguntas.js e adiciona o valor a uma variavel
-
 
 let feedback = function (i, positivo_negativo){
     $("#pergunta" + i + " .txt").remove();
