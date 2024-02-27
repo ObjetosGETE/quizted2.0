@@ -67,11 +67,17 @@ let templates = function (i, type){
     switch(perguntas[i].type.toLowerCase())
     {
         case "quiz":
-        templateQuiz(i);
+            templateQuiz(i);
+            break;
+        
+        case "dragindrop":
+            templateDragInDrop(i);
     }
     
 
 }
+
+
 let templateQuiz = function (i){
     destino = "#top-slides";
     let topSlidePai = $("<div></div>");
