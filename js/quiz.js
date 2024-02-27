@@ -63,7 +63,7 @@ let cont_perguntas = function(){
 // usados no quiz
 // por exemplo, slides com perguntas e respostas
 // e onde eles devem ser inseridos 
-let templates = function (i, type){
+let templates = function (i){
     switch(perguntas[i].type.toLowerCase())
     {
         case "quiz":
