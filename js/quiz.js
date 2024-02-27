@@ -58,13 +58,23 @@ let cont_perguntas = function(){
     nro_perguntas = perguntas.length; 
     return nro_perguntas;
 }
+let destino = "#top-slides";
+let topSlidePai = $("<div></div>");
 
 // função para criação dos templates
 // usados no quiz
 // por exemplo, slides com perguntas e respostas
 // e onde eles devem ser inseridos 
 let templates = function (i){
-    switch(perguntas[i].type.toLowerCase())
+    let type;
+
+    if(perguntas[i].type.toLowerCase() != null){
+        type = perguntas[i].type.toLowerCase();
+    }else{
+        type = estruturageral.config.globalType.toLowerCase();
+    }
+
+    switch(type)
     {
         case "quiz":
             templateQuiz(i);
@@ -73,14 +83,12 @@ let templates = function (i){
         case "dragindrop":
             templateDragInDrop(i);
     }
-    
 
 }
 
-
-let templateQuiz = function (i){
-    destino = "#top-slides";
-    let topSlidePai = $("<div></div>");
+let templatePergunta = function(i){
+    
+    
     if(i > 0){
         topSlidePai.css("display", "none");
     }
@@ -100,7 +108,11 @@ let templateQuiz = function (i){
     txt.append("<p>" + perguntas[i].pergunta + "</p>");
     pergunta.append(txt);
     topSlidePai.append(pergunta);
+}
 
+let templateQuiz = function (i){
+    templatePergunta(i);
+    
     let respostas = $("<div></div>");
     respostas.addClass("respostas");
     let nro_respostas = perguntas[i].respostas.length;
@@ -110,9 +122,14 @@ let templateQuiz = function (i){
         console.warn("Entrou", a, i)
     }
     topSlidePai.append(respostas);
-    
     $(destino).append(topSlidePai);
 }
+
+let templateDragInDrop = function (i){
+    templatePergunta(i);
+}
+
+
 let montar_slides = function (){
     for(i=0; i <= nro_perguntas-1; i++){
         templates(i);

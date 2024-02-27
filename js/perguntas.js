@@ -56,22 +56,22 @@ var perguntas = [
             {
                 botao: "a",
                 validacao: true,
-                texto: "Potência das lentes e marcação do centro óptico."
+                texto: "Potência"
             },
             {
                 botao: "b",
                 validacao: false,
-                texto: "Cor da armação e seu tamanho de ponte e caixa."
+                texto: "Cor"
             },
             {
                 botao: "c",
                 validacao: false,
-                texto: "Peso das lentes e índice de refração."
+                texto: "Peso"
             },
             {
                 botao: "d",
                 validacao: false,
-                texto: "Tamanho da armação, tamanho de ponte, horizontal e maior diagonal."
+                texto: "Tamanho"
             },
         ],
         feedbacks: {
