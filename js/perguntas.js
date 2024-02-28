@@ -12,34 +12,34 @@ var estruturageral = {
     },
     config: {
         acertos_para_vitoria: 0, // 0 = >50% de acertos.
-        globalType: "quiz" // caso o type não seja definido nas perguntas
+        globalType: "quiz" // caso as perguntas não possuam type, será definido um padrão. (globalType = "") = "quiz"
     }
 }
 var perguntas = [
     {
-        type: "quiz",
+        type: "dragindrop",
         titulo: "1. Técnica de lapidação",
         pergunta: "Qual é o propósito principal da técnica de lapidação na montagem de óculos semiaro?",
         respostas: [
             {
                 botao: "a",
                 validacao: false,
-                texto: "Ajustar as hastes para ficarem firmes no rosto do usuário."
+                texto: "Ajustar"
             },
             {
                 botao: "b",
                 validacao: true,
-                texto: "Recortar as lentes no formato da armação escolhida."
+                texto: "Recortar"
             },
             {
                 botao: "c",
-                validacao: false,
-                texto: "Alinhar a armação para que não fique frouxa no rosto do usuário."
+                validacao: true,
+                texto: "Alinhar"
             },
             {
                 botao: "d",
                 validacao: false,
-                texto: "Preencher a ficha técnica com os dados de fabricação e montagem."
+                texto: "Preencher"
             },
         ],
         feedbacks: {

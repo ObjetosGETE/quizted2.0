@@ -205,6 +205,80 @@ header.senac {
     display: block;
     padding-top: 30px;
   }
+
+  .containers.d-flex {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+    margin-top: 20px;
+    max-width: 640px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .containers > .container {
+    width: 100%;
+    padding: 0 15px;
+  }
+
+  .container-alvo {
+    width: 100%;
+    background-color: #64998a;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 8px #3b5e54;
+    border: 3px solid #c0e8dc;
+    position: relative;
+  }
+  .container-alvo::before {
+    content: "Coloque a resposta aqui";
+    text-align: center;
+    pointer-events: none;
+    touch-action: none;
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    color: #33333300;
+  }
+  .container-alvo:hover {
+    border-color: #333;
+  }
+  .container-alvo:hover::before {
+    color: #b6dad0;
+  }
+  .respostas.dragindrop {
+    text-align: center;
+  }
+  .respostas.dragindrop button.bto .fa-solid {
+    color: #64998a;
+    margin-right: 10px;
+    font-size: 16px;
+    top: -3px;
+    position: relative;
+  }
+  .respostas.dragindrop button.bto {
+    display: inline !important;
+    width: auto;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: white;
+    margin:10px;
+    border: 3px solid #64998a;
+    box-shadow: 0 3px 0 #64998a;
+  }
+  .respostas.dragindrop button.bto::before {
+    content: unset;
+    width: unset;
+    height: unset;
+    text-align: unset;
+    display: unset;
+    border: unset;
+    background-color: unset;
+    padding: unset;
+    margin-right: unset;
+    box-shadow: unset;
+  }
   @media screen and (max-width:1000px){
     #nome-curso.titulo-longo{
     width:70%;
