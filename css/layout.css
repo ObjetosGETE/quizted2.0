@@ -232,14 +232,15 @@ header.senac {
     position: relative;
   }
   .container-alvo::before {
-    content: "Coloque a resposta aqui";
+    content: "Arraste a resposta aqui";
     text-align: center;
     pointer-events: none;
     touch-action: none;
-    font-size: 16px;
+    font-size: 12px;
     display: block;
     width: 100%;
     color: #33333300;
+    text-transform: uppercase;
   }
   .container-alvo:hover {
     border-color: #333;

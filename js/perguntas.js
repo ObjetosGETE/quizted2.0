@@ -50,6 +50,7 @@ var perguntas = [
         }
     },
     {
+        type: "dragindrop",
         titulo: "2. Técnica de marcação (lensometria)",
         pergunta: "O que a lensometria afere durante a técnica de marcação em óculos sem aro?",
         respostas: [
