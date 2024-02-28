@@ -9,7 +9,8 @@ Novo quiz do Ted, totalmente flexivel com diferentes formas para responder.
 
 ## Novas funcionalidades em breve
 - Possibilidade de escolha de mecânicas para utilização, a nível de perguntas, para responder:
-  - Drag in drop: Clicando ou arrastando a responsta será enviada para um container;
+  - Drag in drop: Arrastando a responsta para un container;
+  - Sequência em ordem: cliques nas respostas em uma sequência correta;
 - Imagens ou Imagens + Texto: Possibilidade de utilizar imagens no quiz tanto em respostas como nas perguntas;
 - Permitir diferentes notas para perguntas específicas;
 - Músicas e sons de interação e possibilidade de personalização;
