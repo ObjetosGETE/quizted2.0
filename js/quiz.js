@@ -46,6 +46,7 @@ $(function (){
         location.href="index.html"
     });
     
+    dragula_init();
 });
 
 // inicialização de variaveis importantes
@@ -160,10 +161,11 @@ let templateDragInDrop = function (i){
     let respostas = $("<div></div>");
     respostas.addClass("respostas");
     respostas.addClass("dragindrop");
+    respostas.prop("id", "#resposta"+i)
 
     let nro_respostas = perguntas[i].respostas.length;
     for(a = 0; a <= nro_respostas-1; a++){
-        respostas.append('<button data-resp="' + a + '" type="button" data-label="'+ perguntas[i].respostas[a].botao +'" class="bto"><i class="fa-solid fa-grip-lines-vertical"></i> '+ perguntas[i].respostas[a].texto +'</button>')
+        respostas.append('<button data-resp="' + a + '" type="button" data-label="'+ perguntas[i].respostas[a].botao +'" class="bto bto-dragindrop-item"><i class="fa-solid fa-grip-lines-vertical"></i> '+ perguntas[i].respostas[a].texto +'</button>')
        
     }
 
@@ -244,6 +246,68 @@ let montar_slide_final = function(){
 
 let init = function (){
     cont_perguntas(nro_perguntas);
-    
+    // Dragula    
 }
 
+// dragula
+let dragula_init = function (){
+// Aqui você adiciona ou remove os containers pra onde devem ir os cards
+var containers = [
+    // Container com os cards que serão realocados
+    // Não mexer
+    document.querySelector(".dragindrop"),
+  
+    // Containers que irão receber os cards
+    document.querySelector(".container-alvo"),
+    document.querySelector("#pergunta0")
+
+  ];
+  var audio = new Audio();
+  var erro = 0;
+  
+  // Solução ao dragindrop
+  var scrollable = true;
+  
+  var listener = function(e) {
+    console.log(scrollable)
+      if (! scrollable) {
+          e.preventDefault();
+      }
+  }
+  
+//   document.addEventListener('touchmove', listener, { passive:false });
+  
+  // Solução ao dragindrop
+  
+  dragula({
+    containers: containers,
+    revertOnSpill: true,
+    direction: 'vertical',
+    // accepts: function (el, target, source, sibling) {
+    //     // return el.dataset.target == target.id; 
+    //     return true; 
+    // }
+  }).on('drag', function(el, source) {
+    // On mobile this prevents the default page scrolling while dragging an item.
+    scrollable = false;
+  }).on("drop", function(){
+    scrollable = true;
+  
+    // $('#bgmodal-acerto').modal('show')
+        // audio.setAttribute('src','audios/acerto.mp3'); //change the source
+        // audio.load(); //load the new source
+        // audio.play(); //play
+  
+  }).on("cancel", function(){
+    scrollable = true;
+  
+        // Executa o áudio e a modal necessária
+        // Também é possível fazer algum teste aqui caso necessário.
+    // $('#bgmodal-erro').modal('show')
+        // audio.setAttribute('src','audios/erro.mp3'); //change the source
+        // audio.load(); //load the new source
+        // audio.play(); //play
+  });
+}
+
+  

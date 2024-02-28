@@ -225,40 +225,32 @@ header.senac {
   .container-alvo {
     width: 100%;
     background-color: #64998a;
-    padding: 10px;
     border-radius: 5px;
     box-shadow: inset 0 0 8px #3b5e54;
     border: 3px solid #c0e8dc;
     position: relative;
+    min-height: 50px;
+    padding: 10px;
   }
-  .container-alvo::before {
-    content: "Arraste a resposta aqui";
-    text-align: center;
-    pointer-events: none;
-    touch-action: none;
-    font-size: 12px;
-    display: block;
-    width: 100%;
-    color: #33333300;
-    text-transform: uppercase;
-  }
-  .container-alvo:hover {
-    border-color: #333;
-  }
-  .container-alvo:hover::before {
-    color: #b6dad0;
-  }
+ 
+
+
   .respostas.dragindrop {
     text-align: center;
   }
-  .respostas.dragindrop button.bto .fa-solid {
+  button.bto.bto-dragindrop-item .fa-solid {
     color: #64998a;
     margin-right: 10px;
     font-size: 16px;
     top: -3px;
     position: relative;
   }
-  .respostas.dragindrop button.bto {
+
+button.bto.bto-dragindrop-item
+  {
+    text-align: left;
+    border: 0px none;
+    background: none;
     display: inline !important;
     width: auto;
     padding: 5px 10px;
@@ -268,7 +260,7 @@ header.senac {
     border: 3px solid #64998a;
     box-shadow: 0 3px 0 #64998a;
   }
-  .respostas.dragindrop button.bto::before {
+  button.bto.bto-dragindrop-item::before {
     content: unset;
     width: unset;
     height: unset;
