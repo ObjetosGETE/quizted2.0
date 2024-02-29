@@ -12,7 +12,7 @@ body {
     background-color: #333;
     font-size: 26px;
 }
-.bto-nav, .bto-nav-reiniciar {
+.bto-padrao {
   display: block;
   color: white;
   background-color: var(--cor-textos);
@@ -20,7 +20,7 @@ body {
   padding: 20px 60px;
   display: inline-block;
 }
-.bto-nav:hover, .bto-nav-reiniciar {
+.bto-padrao:hover {
   background-color: var(--paletta-azul-hover);
 }
 p, button {
@@ -238,7 +238,7 @@ header.senac {
   .respostas.dragindrop {
     text-align: center;
   }
-  button.bto.bto-dragindrop-item .fa-solid {
+  button.bto-dragindrop-item .fa-solid {
     color: #64998a;
     margin-right: 10px;
     font-size: 16px;
@@ -246,12 +246,12 @@ header.senac {
     position: relative;
   }
 
-button.bto.bto-dragindrop-item
+button.bto-dragindrop-item
   {
     text-align: left;
     border: 0px none;
     background: none;
-    display: inline !important;
+    display: inline;
     width: auto;
     padding: 5px 10px;
     border-radius: 5px;
@@ -271,6 +271,33 @@ button.bto.bto-dragindrop-item
     padding: unset;
     margin-right: unset;
     box-shadow: unset;
+  }
+
+  
+/* Para não exibir pra onde o usuário vai levar o card. */
+.slot .gu-transit {
+  display: none;
+}
+.game-body .slot {
+    height: auto;
+    width: 100%;
+    background-color: transparent;
+    border: 3px dashed white;
+      border-top-color: white;
+      border-top-style: dashed;
+      border-top-width: 1px;
+    color: #333;
+    display: inline-block;
+    text-align: center;
+    padding-bottom: 22px;
+    padding-top: 22px;
+    border-top: none;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    max-width: 230px;
+    margin: auto;
+    display: block;
+    
   }
   @media screen and (max-width:1000px){
     #nome-curso.titulo-longo{
