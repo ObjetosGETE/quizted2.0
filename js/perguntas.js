@@ -1,3 +1,5 @@
+
+
 var estruturageral = {
     mensagemfinal: {
         positiva: [
@@ -50,7 +52,7 @@ var perguntas = [
         }
     },
     {
-        type: "dragindrop",
+        type: "quiz",
         titulo: "2. Técnica de marcação (lensometria)",
         pergunta: "O que a lensometria afere durante a técnica de marcação em óculos sem aro?",
         respostas: [

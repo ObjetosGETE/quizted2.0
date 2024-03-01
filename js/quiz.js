@@ -46,7 +46,7 @@ $(function (){
         location.href="index.html"
     });
     
-    dragula_init();
+ 
 });
 
 // inicialização de variaveis importantes
@@ -60,6 +60,8 @@ let cont_perguntas = function(){
     return nro_perguntas;
 }
 let destino = "#top-slides";
+
+
 
 // função para criação dos templates
 // usados no quiz
@@ -149,10 +151,11 @@ let templateDragInDrop = function (i){
     let container = $("<div></div>");
     container.addClass("containers");
     container.addClass("d-flex");
-    // let respostas_certas = 0;
+    
     perguntas[i].respostas.forEach((alternativas, index) => {
         if(alternativas.validacao === true){
-            container.append('<div class="container" id="container-alvo-'+index+'"><div class="container-alvo"></div></div>');
+            container.append('<div class="container"><div id="container-alvo-'+index+'" class="container-alvo"></div></div>');
+            
         }
     });
     topSlidePai.append(container);
@@ -164,9 +167,10 @@ let templateDragInDrop = function (i){
     respostas.prop("id", "#resposta"+i)
 
     let nro_respostas = perguntas[i].respostas.length;
+   
     for(a = 0; a <= nro_respostas-1; a++){
         respostas.append('<button data-resp="' + a + '" type="button" data-label="'+ perguntas[i].respostas[a].botao +'" class="bto-dragindrop-item"><i class="fa-solid fa-grip-lines-vertical"></i> '+ perguntas[i].respostas[a].texto +'</button>')
-       
+             
     }
 
     topSlidePai.append(respostas);
@@ -249,65 +253,65 @@ let init = function (){
     // Dragula    
 }
 
+
+$(function(){
+    var containers = [];
+    containers[0] = document.querySelector(".dragindrop");
+    containers[1] = document.querySelector("#container-alvo-1");
+    containers[2] = document.querySelector("#container-alvo-2");
 // dragula
 let dragula_init = function (){
-// Aqui você adiciona ou remove os containers pra onde devem ir os cards
-var containers = [
-    // Container com os cards que serão realocados
-    // Não mexer
-    document.querySelector(".dragindrop"),
-  
-    // Containers que irão receber os cards
-    document.querySelector(".container-alvo"),
-    document.querySelector("#pergunta0")
-
-  ];
-  var audio = new Audio();
-  var erro = 0;
-  
-  // Solução ao dragindrop
-  var scrollable = true;
-  
-  var listener = function(e) {
-    console.log(scrollable)
-      if (! scrollable) {
-          e.preventDefault();
+    // Aqui você adiciona ou remove os containers pra onde devem ir os cards
+    // Aqui iam os containers
+      var audio = new Audio();
+      var erro = 0;
+      
+      // Solução ao dragindrop
+      var scrollable = true;
+      
+      var listener = function(e) {
+        console.log(scrollable)
+          if (! scrollable) {
+              e.preventDefault();
+          }
       }
-  }
-  
-//   document.addEventListener('touchmove', listener, { passive:false });
-  
-  // Solução ao dragindrop
-  
-  dragula({
-    containers: containers,
-    revertOnSpill: true,
-    direction: 'vertical',
-    // accepts: function (el, target, source, sibling) {
-    //     // return el.dataset.target == target.id; 
-    //     return true; 
-    // }
-  }).on('drag', function(el, source) {
-    // On mobile this prevents the default page scrolling while dragging an item.
-    scrollable = false;
-  }).on("drop", function(){
-    scrollable = true;
-  
-    // $('#bgmodal-acerto').modal('show')
-        // audio.setAttribute('src','audios/acerto.mp3'); //change the source
-        // audio.load(); //load the new source
-        // audio.play(); //play
-  
-  }).on("cancel", function(){
-    scrollable = true;
-  
-        // Executa o áudio e a modal necessária
-        // Também é possível fazer algum teste aqui caso necessário.
-    // $('#bgmodal-erro').modal('show')
-        // audio.setAttribute('src','audios/erro.mp3'); //change the source
-        // audio.load(); //load the new source
-        // audio.play(); //play
-  });
-}
-
-  
+      
+    //   document.addEventListener('touchmove', listener, { passive:false });
+      
+      // Solução ao dragindrop
+     
+      dragula({
+        containers: containers,
+        revertOnSpill: true,
+        direction: 'vertical',
+        accepts: function (el, target, source, sibling) {
+        //      return el.dataset.target == target.id; 
+            // console.log()
+            return target.children.length <= 1 || $(target).prop("class").indexOf("dragindrop") != -1; 
+        }
+      }).on('drag', function(el, source) {
+        // On mobile this prevents the default page scrolling while dragging an item.
+        scrollable = false;
+      }).on("drop", function(el, target){
+        scrollable = true;
+        $(target).addClass("preenchido");
+        // $('#bgmodal-acerto').modal('show')
+            // audio.setAttribute('src','audios/acerto.mp3'); //change the source
+            // audio.load(); //load the new source
+            // audio.play(); //play
+      
+      }).on("cancel", function(){
+        scrollable = true;
+      
+            // Executa o áudio e a modal necessária
+            // Também é possível fazer algum teste aqui caso necessário.
+        // $('#bgmodal-erro').modal('show')
+            // audio.setAttribute('src','audios/erro.mp3'); //change the source
+            // audio.load(); //load the new source
+            // audio.play(); //play
+      });
+    }
+    
+    dragula_init();
+    
+})

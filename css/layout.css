@@ -260,7 +260,7 @@ button.bto-dragindrop-item
     border: 3px solid #64998a;
     box-shadow: 0 3px 0 #64998a;
   }
-  button.bto.bto-dragindrop-item::before {
+  button.bto-dragindrop-item::before {
     content: unset;
     width: unset;
     height: unset;
@@ -273,12 +273,22 @@ button.bto-dragindrop-item
     box-shadow: unset;
   }
 
-  
+  .container-alvo.preenchido {
+    padding: 0px;
+  }
+  .container-alvo.preenchido button {
+    margin: 0px;
+    box-shadow: none;
+    width: 100%;
+    text-align: center;
+
+  }
+  .container-alvo.preenchido button .fa-solid {
+    display: none;
+  }
 /* Para não exibir pra onde o usuário vai levar o card. */
-.slot .gu-transit {
-  display: none;
-}
-.game-body .slot {
+/* 
+.container-alvo {
     height: auto;
     width: 100%;
     background-color: transparent;
@@ -298,7 +308,7 @@ button.bto-dragindrop-item
     margin: auto;
     display: block;
     
-  }
+  }  */
   @media screen and (max-width:1000px){
     #nome-curso.titulo-longo{
     width:70%;
