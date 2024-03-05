@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo de Arrastar e Soltar com jQuery</title>
+    <style>
+        /* style.css */
+.example-parent {
+    display: flex;
+    font-family: sans-serif;
+}
+
+.example-origin {
+    flex-basis: 50%;
+    padding: 10px;
+}
+
+.example-draggable {
+    background-color: #4AAE9B;
+    padding: 10px;
+    cursor: move;
+}
+
+.example-dropzone {
+    background-color: #6DB65B;
+    flex-basis: 50%;
+    padding: 10px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="example-parent">
+        <div class="example-origin">
+            <div id="makeMeDraggable" class="example-draggable">
+                Arraste-me!
+            </div>
+        </div>
+        <div class="example-dropzone">
+            Solte aqui!
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        // script.js
+$(document).ready(function() {
+    $('#makeMeDraggable').draggable({
+        containment: 'parent'
+    });
+
+    $('.example-dropzone').droppable({
+        drop: function(event, ui) {
+            const draggableElement = ui.draggable;
+            const dropzone = $(this);
+            dropzone.append(draggableElement);
+        }
+    });
+});
+
+    </script>
+</body>
+</html>

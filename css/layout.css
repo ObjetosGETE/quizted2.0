@@ -276,16 +276,17 @@ button.bto-dragindrop-item
   .container-alvo.preenchido {
     padding: 0px;
   }
-  .container-alvo.preenchido button {
+  .container-alvo button {
     margin: 0px;
     box-shadow: none;
     width: 100%;
     text-align: center;
-
   }
-  .container-alvo.preenchido button .fa-solid {
+  .container-alvo button .fa-solid {
     display: none;
   }
+
+  .respostas > .ondragging {  }
 /* Para não exibir pra onde o usuário vai levar o card. */
 /* 
 .container-alvo {

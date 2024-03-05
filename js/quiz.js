@@ -169,7 +169,7 @@ let templateDragInDrop = function (i){
     let nro_respostas = perguntas[i].respostas.length;
    
     for(a = 0; a <= nro_respostas-1; a++){
-        respostas.append('<button data-resp="' + a + '" type="button" data-label="'+ perguntas[i].respostas[a].botao +'" class="bto-dragindrop-item"><i class="fa-solid fa-grip-lines-vertical"></i> '+ perguntas[i].respostas[a].texto +'</button>')
+        respostas.append('<button draggable="true" data-resp="' + a + '" type="button" data-label="'+ perguntas[i].respostas[a].botao +'" class="bto-dragindrop-item"><i class="fa-solid fa-grip-lines-vertical"></i> '+ perguntas[i].respostas[a].texto +'</button>')
              
     }
 
@@ -250,68 +250,57 @@ let montar_slide_final = function(){
 
 let init = function (){
     cont_perguntas(nro_perguntas);
-    // Dragula    
+   
 }
 
+// https://www.w3schools.com/html/html5_draganddrop.asp
 
-$(function(){
-    var containers = [];
-    containers[0] = document.querySelector(".dragindrop");
-    containers[1] = document.querySelector("#container-alvo-1");
-    containers[2] = document.querySelector("#container-alvo-2");
-// dragula
-let dragula_init = function (){
-    // Aqui você adiciona ou remove os containers pra onde devem ir os cards
-    // Aqui iam os containers
-      var audio = new Audio();
-      var erro = 0;
-      
-      // Solução ao dragindrop
-      var scrollable = true;
-      
-      var listener = function(e) {
-        console.log(scrollable)
-          if (! scrollable) {
-              e.preventDefault();
-          }
-      }
-      
-    //   document.addEventListener('touchmove', listener, { passive:false });
-      
-      // Solução ao dragindrop
-     
-      dragula({
-        containers: containers,
-        revertOnSpill: true,
-        direction: 'vertical',
-        accepts: function (el, target, source, sibling) {
-        //      return el.dataset.target == target.id; 
-            // console.log()
-            return target.children.length <= 1 || $(target).prop("class").indexOf("dragindrop") != -1; 
-        }
-      }).on('drag', function(el, source) {
-        // On mobile this prevents the default page scrolling while dragging an item.
-        scrollable = false;
-      }).on("drop", function(el, target){
-        scrollable = true;
-        $(target).addClass("preenchido");
-        // $('#bgmodal-acerto').modal('show')
-            // audio.setAttribute('src','audios/acerto.mp3'); //change the source
-            // audio.load(); //load the new source
-            // audio.play(); //play
-      
-      }).on("cancel", function(){
-        scrollable = true;
-      
-            // Executa o áudio e a modal necessária
-            // Também é possível fazer algum teste aqui caso necessário.
-        // $('#bgmodal-erro').modal('show')
-            // audio.setAttribute('src','audios/erro.mp3'); //change the source
-            // audio.load(); //load the new source
-            // audio.play(); //play
-      });
+let dragging_element;
+  $("body").on("dragstart", ".bto-dragindrop-item", function (ev){
+    // Drag
+    dragging_element = $(this)
+  
+    $(dragging_element).addClass("ondragging");
+  })
+
+  $("body").on("dragover", ".container-alvo", function (ev){
+    
+    if($("#" + $(this).attr("id") + " button").length < 1)
+    {
+        ev.preventDefault();
     }
+    // allowDrop
+    // não permitir o drop se o alvo já tiver algum item
+    console.log($("#" + $(this).attr("id") + " button").length)
+  });
+
+  $("body").on("drop", ".container-alvo", function (ev){
+    ev.preventDefault();
+   
     
-    dragula_init();
+    ev.target.append(dragging_element[0]);
+    dragging_element.removeClass("ondragging")
+  // DROP
+  })
+  
+  $("body").on("dragover", ".dragindrop", function (ev){
+
     
-})
+    ev.preventDefault();
+    // allowDrop
+
+});
+
+  $("body").on("drop", ".dragindrop", function (ev){
+    ev.preventDefault();
+
+    if(!$(ev.target).is("button")) {
+        ev.target.append(dragging_element[0]);
+
+    }else{
+        $(ev.target).parents(".dragindrop").append(dragging_element[0]);
+    }
+    console.log(ev.target)  
+    dragging_element.removeClass("ondragging")
+  // DROP
+  })
