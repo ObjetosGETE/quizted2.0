@@ -1,5 +1,3 @@
-
-
 var estruturageral = {
     mensagemfinal: {
         positiva: [
@@ -15,11 +13,12 @@ var estruturageral = {
     config: {
         acertos_para_vitoria: 0, // 0 = >50% de acertos.
         globalType: "quiz" // caso as perguntas não possuam type, será definido um padrão. (globalType = "") = "quiz"
+        // fluxoExibicao: [ cat1: 10, cat2: 3, cat3: 8 ] // Aqui
     }
 }
 var perguntas = [
     {
-        type: "dragindrop",
+        type: "quiz",
         titulo: "1. Técnica de lapidação",
         pergunta: "Qual é o propósito principal da técnica de lapidação na montagem de óculos semiaro?",
         respostas: [
@@ -37,6 +36,11 @@ var perguntas = [
                 botao: "c",
                 validacao: true,
                 texto: "Alinhar"
+            },
+            {
+                botao: "d",
+                validacao: false,
+                texto: "Preencher"
             },
             {
                 botao: "d",

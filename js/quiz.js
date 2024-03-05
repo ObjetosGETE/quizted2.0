@@ -6,7 +6,8 @@ $(function (){
     init();
     montar_slides();
 
-    $(".respostas button.bto").click(function(){
+    // Preciso corrigir este bloco para aceitar mais de uma resposta certa.
+    $(".respostas button.bto").click(function(){ // Clique para responder as perguntas do Quiz Clássico
         let userOption = $(this).index();
         let idSlide = $(this).parents(".top-slide").index();
         let respostasPai = $(this).parents(".top-slide").children(".respostas");
@@ -27,7 +28,7 @@ $(function (){
         
     });
 
-    $(".bto-nav").click(function (){
+    $(".bto-nav").click(function (){ // Navegação dos botões próximo para trocar de slide
         $("#navegacao").hide();  
         if(pergunta_atual <= nro_perguntas){
             $(".top-slide").eq(pergunta_atual-2).fadeOut("fast", function(){
@@ -52,21 +53,18 @@ $(function (){
 // inicialização de variaveis importantes
 //
 //
-let nro_perguntas;
-let pergunta_atual = 1;
-let acertos = 0;
-let cont_perguntas = function(){
+let nro_perguntas; // número de perguntas
+let pergunta_atual = 1; // Inicia na pergunta 1
+let cout_acertos = 0; // Inicializa o contador acertos 
+let cout_perguntas = function(){ // Função para contar o número de perguntas que existe
     nro_perguntas = perguntas.length; 
-    return nro_perguntas;
+    return nro_perguntas; // Retorna o número de perguntas do objeto na página perguntas.js
 }
-let destino = "#top-slides";
+let destino = "#top-slides"; //inicializa por padrão a div com o #top-slides
 
 
 
-// função para criação dos templates
-// usados no quiz
-// por exemplo, slides com perguntas e respostas
-// e onde eles devem ser inseridos 
+// Utilizando cada um dos templates, monta um slide utilizando o template. O i é a posição do laço for de quem chama a função.
 let templates = function (i){
    
     let type = perguntas[i].type;
@@ -82,7 +80,7 @@ let templates = function (i){
             break
         
         case "quiz":
-        default:
+        default: // Caso não exista uma opção correta no type, coloca o quiz como padrão
             templateQuiz(i);       
             break;
         
@@ -90,6 +88,7 @@ let templates = function (i){
     
 }
 
+// Template Quiz Clássico
 let templateQuiz = function (i){
     let topSlidePai = $("<div></div>");
     if(i > 0){
@@ -125,6 +124,7 @@ let templateQuiz = function (i){
     $(destino).append(topSlidePai);
 }
 
+// Template Quiz arrastando as respostas
 let templateDragInDrop = function (i){
     let topSlidePai = $("<div></div>");
     if(i > 0){
@@ -178,16 +178,17 @@ let templateDragInDrop = function (i){
     $(destino).append(topSlidePai);
 }
 
+// monta os slides de cada pergunta
 let montar_slides = function (){
     for(i=0; i <= nro_perguntas-1; i++){
         templates(i);
     }
-    
 }
 // retorna o número de perguntas que o aluno precisa responder
 // de acordo com o perguntas.js e adiciona o valor a uma variavel
 
-
+// Feedbacks de cada pergunta
+//
 let feedback = function (i, positivo_negativo){
     $("#pergunta" + i + " .txt").remove();
 
@@ -203,8 +204,8 @@ let feedback = function (i, positivo_negativo){
     if(positivo_negativo === true){
         ico = "up";
         feed_texto = perguntas[i].feedbacks.positivo;
-        acertos++;
-        $("#acertos").text(acertos)
+        cout_acertos++;
+        $("#acertos").text(cout_acertos)
     }else{
         ico = "down";
         feed_texto = perguntas[i].feedbacks.negativo;
@@ -223,6 +224,7 @@ let feedback = function (i, positivo_negativo){
 
 }
 
+// Monta o slide da tela final
 let montar_slide_final = function(){
     $("#total").text(nro_perguntas);
     let mensagemFinal = "";
@@ -234,7 +236,7 @@ let montar_slide_final = function(){
     }else {
         regra_vitoria = acertos_para_vitoria;
     }
-    if(acertos >= regra_vitoria){
+    if(cout_acertos >= regra_vitoria){
         estruturageral.mensagemfinal.positiva.forEach(element => {
             mensagemFinal += "<p>" + element + "</p>";
             console.log("acerto")
@@ -249,22 +251,21 @@ let montar_slide_final = function(){
 }
 
 let init = function (){
-    cont_perguntas(nro_perguntas);
+    cout_perguntas(nro_perguntas);
    
 }
 
-// https://www.w3schools.com/html/html5_draganddrop.asp
-
+// Gameplay: Dragindrop
+//
 let dragging_element;
-  $("body").on("dragstart", ".bto-dragindrop-item", function (ev){
-    // Drag
+$("body").on("dragstart", ".bto-dragindrop-item", function (ev){
     dragging_element = $(this)
-  
     $(dragging_element).addClass("ondragging");
-  })
+})
 
-  $("body").on("dragover", ".container-alvo", function (ev){
-    
+// DRAG OVER
+$("body").on("dragover", ".container-alvo", function (ev){
+
     if($("#" + $(this).attr("id") + " button").length < 1)
     {
         ev.preventDefault();
@@ -272,26 +273,20 @@ let dragging_element;
     // allowDrop
     // não permitir o drop se o alvo já tiver algum item
     console.log($("#" + $(this).attr("id") + " button").length)
-  });
-
-  $("body").on("drop", ".container-alvo", function (ev){
-    ev.preventDefault();
-   
-    
-    ev.target.append(dragging_element[0]);
-    dragging_element.removeClass("ondragging")
-  // DROP
-  })
-  
-  $("body").on("dragover", ".dragindrop", function (ev){
-
-    
-    ev.preventDefault();
+});
+$("body").on("dragover", ".dragindrop", function (ev){
     // allowDrop
-
+    ev.preventDefault();
 });
 
-  $("body").on("drop", ".dragindrop", function (ev){
+// DROP
+$("body").on("drop", ".container-alvo", function (ev){
+    ev.preventDefault();
+    ev.target.append(dragging_element[0]);
+    dragging_element.removeClass("ondragging")
+
+});
+$("body").on("drop", ".dragindrop", function (ev){
     ev.preventDefault();
 
     if(!$(ev.target).is("button")) {
@@ -303,4 +298,4 @@ let dragging_element;
     console.log(ev.target)  
     dragging_element.removeClass("ondragging")
   // DROP
-  })
+})
