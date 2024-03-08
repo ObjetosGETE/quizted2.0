@@ -287,29 +287,7 @@ button.bto-dragindrop-item
   }
 
   .respostas > .ondragging {  }
-/* Para não exibir pra onde o usuário vai levar o card. */
-/* 
-.container-alvo {
-    height: auto;
-    width: 100%;
-    background-color: transparent;
-    border: 3px dashed white;
-      border-top-color: white;
-      border-top-style: dashed;
-      border-top-width: 1px;
-    color: #333;
-    display: inline-block;
-    text-align: center;
-    padding-bottom: 22px;
-    padding-top: 22px;
-    border-top: none;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    max-width: 230px;
-    margin: auto;
-    display: block;
-    
-  }  */
+
   @media screen and (max-width:1000px){
     #nome-curso.titulo-longo{
     width:70%;

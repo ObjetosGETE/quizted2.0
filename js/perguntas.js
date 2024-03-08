@@ -17,7 +17,7 @@ var estruturageral = {
     }
 }
 var perguntas = [
-    {
+    { 
         type: "quiz",
         titulo: "1. Técnica de lapidação",
         pergunta: "Qual é o propósito principal da técnica de lapidação na montagem de óculos semiaro?",
