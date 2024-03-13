@@ -317,12 +317,13 @@ $("body").on("drop", ".dragindrop", function (ev){
 var verificarContainers = function (el){
     // Quantos containers tem, quantos botões tem dentro do container 1 e do 2
     let coutEl = 0;
-    $(".container-alvo").each(function(index, el){
-        coutEl += $("#" + $($(".container-alvo")[index]).attr("id") + " button").length;
+
+    $($(".top-slide")[pergunta_atual-1]).children(".containers").children(".container").children(".container-alvo").each(function(index, el){
+        coutEl += $(el).length;
     })
     console.warn("O número de containers preenchidos são: ", coutEl)
 
-    if(coutEl >= $(".container-alvo").length){ // Verifica o contador e dispara a validação
+    if(coutEl >= $($($(".top-slide")[pergunta_atual-1]).children(".containers").children(".container").children(".container-alvo")).length){ // Verifica o contador e dispara a validação
         console.error("Tá tudo cheio!")
 
         let idSlide = $(".respostas").attr("id");
