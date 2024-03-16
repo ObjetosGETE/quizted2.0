@@ -24,7 +24,7 @@ $(function (){
         mostrarNavPadrao("avancar")
     });
 
-    $("[data-action='avancar']").click(function (){ // Navegação dos botões próximo para trocar de slide
+    $("body").on("click", "[data-action='quiz-nav']", function (){ // Navegação dos botões próximo para trocar de slide
         $("#navegacao").hide();  
         if(pergunta_atual <= nro_perguntas){
             $(".top-slide").eq(pergunta_atual-2).fadeOut("fast", function(){
@@ -41,7 +41,8 @@ $(function (){
 
     $("body").on("click", '[data-action="dragindrop-test"]', function (){ //Valida se as respostas arrastadas ao container estão corretas
         var respCorreta = 0;
-        var respID = $(".respostas").attr("id")
+        var respID = $(".respostas").attr("id");
+        var topSlidePai = $("#pergunta" + (pergunta_atual-1));
         $(".container-alvo").each((index, el) => {
             // console.log($(el).attr("id"), $("#" + $(el).attr("id") + " .bto-dragindrop-item").attr("data-resp"))
             let posTrue = $("#" + $(el).attr("id") + " .bto-dragindrop-item").attr("data-resp");
@@ -81,7 +82,7 @@ let destino = "#top-slides"; //inicializa por padrão a div com o #top-slides
 let templates = function (i){
    
     let type = perguntas[i].type;
-    if(type === undefined){
+    if(typeof type === "undefined"){
         type = estruturageral.config.globalType;
     }
 
@@ -120,7 +121,7 @@ let templateQuiz = function (i){
 
     let txt = $("<div></div>");
     txt.addClass("txt")
-    txt.append("<p>" + perguntas[i].pergunta + "</p>");
+    txt.append("<p>" + perguntas[i].pergunta.texto + "</p>");
     pergunta.append(txt);
     topSlidePai.append(pergunta);
 
@@ -129,7 +130,7 @@ let templateQuiz = function (i){
     let nro_respostas = perguntas[i].respostas.length;
 
     for(a = 0; a <= nro_respostas-1; a++){
-        respostas.append('<button data-resp="' + a + '" type="button" data-label="'+ perguntas[i].respostas[a].botao +'" class="bto">'+ perguntas[i].respostas[a].texto +'</button>')
+        respostas.append('<button data-resp="' + a + '" type="button" data-label="'+ perguntas[i].respostas[a].ordem +'" class="bto">'+ perguntas[i].respostas[a].texto +'</button>')
 
     }
     topSlidePai.append(respostas);
@@ -156,7 +157,20 @@ let templateDragInDrop = function (i){
 
     let txt = $("<div></div>");
     txt.addClass("txt")
-    txt.append("<p>" + perguntas[i].pergunta + "</p>");
+   
+    let imgPergunta = "";
+    let objImgPergunta = perguntas[i].pergunta.imagem;
+    if(objImgPergunta !== false && typeof objImgPergunta.src !== "undefined"){
+        imgPergunta = '<img src="'+ objImgPergunta.src +'" alt="' + objImgPergunta.alt + ' title="'+ objImgPergunta.title +'" class="img-fluid" />';
+    }
+    
+    let fonteImgPergunta = "";
+    let objfonteImgPergunta = objImgPergunta;
+    if(objfonteImgPergunta.fonte !== false && typeof objfonteImgPergunta.fonte !== "undefined"){
+        fonteImgPergunta = "<p class='legenda'>" + objfonteImgPergunta.fonte + "</p>";
+    }
+
+    txt.append("<p>" + imgPergunta + fonteImgPergunta + perguntas[i].pergunta.texto + "</p>");
     pergunta.append(txt);
     topSlidePai.append(pergunta);
 
@@ -167,7 +181,16 @@ let templateDragInDrop = function (i){
     
     perguntas[i].respostas.forEach((alternativas, index) => {
         if(alternativas.validacao === true){
-            container.append('<div class="container"><div id="container-alvo-'+index+'" class="container-alvo"></div></div>');
+            let imagem = "";
+            if(alternativas.relacionarCom.imagem.src !== "" && typeof alternativas.relacionarCom.imagem.src !== "undefined"){
+                imagem = '<img src="'+ alternativas.relacionarCom.imagem.src +'" alt="' + alternativas.alt + ' title="'+ alternativas.relacionarCom.imagem.title +'" class="img-fluid" />';
+            }
+
+            let fonte = "";
+            if(alternativas.relacionarCom.imagem.fonte !== "" && typeof alternativas.relacionarCom.imagem.fonte !== "undefined"){
+                fonte = "<p class='legenda'>" + alternativas.relacionarCom.imagem.fonte + "</p>";
+            }
+            container.append('<div class="container">' + imagem + fonte + '<div id="container-alvo-'+index+'" class="container-alvo"></div></div>');
             
         }
     });
@@ -180,9 +203,20 @@ let templateDragInDrop = function (i){
     respostas.prop("id", "#resposta"+i)
 
     let nro_respostas = perguntas[i].respostas.length;
-   
+    
     for(a = 0; a <= nro_respostas-1; a++){
-        respostas.append('<button draggable="true" data-resp="' + a + '" type="button" data-label="'+ perguntas[i].respostas[a].botao +'" class="bto-dragindrop-item"><i class="fa-solid fa-grip-lines-vertical"></i> '+ perguntas[i].respostas[a].texto +'</button>')
+        let objImgItem = perguntas[i].respostas[a].imagem;
+        let imgItem = "";
+        if(objImgItem.src !== false && typeof objImgItem.src !== "undefined"){
+            imgItem = '<img src="'+ objImgItem.src +'" alt="' + objImgItem.alt + '" title="' + objImgItem.title + '" class="img-fluid" />';
+        }
+        let fonteImgItem = "";
+    
+        if(objImgItem.fonte !== false && typeof objImgItem.fonte !== "undefined"){
+            fonteImgItem = "<span class='legenda d-block'>" + objImgItem.fonte + "</span>";
+        }
+
+        respostas.append('<button draggable="true" data-resp="' + a + '" type="button" data-label="'+ perguntas[i].respostas[a].ordem +'" class="bto-dragindrop-item"><i class="fa-solid fa-grip-lines-vertical"></i> '+ imgItem + fonteImgItem + perguntas[i].respostas[a].texto +'</button>')
              
     }
 
@@ -216,12 +250,12 @@ let feedback = function (i, positivo_negativo){
     let feed_texto;
     if(positivo_negativo === true){
         ico = "up";
-        feed_texto = perguntas[i].feedbacks.positivo;
+        feed_texto = perguntas[i].feedbacks.positivo.texto;
         cout_acertos++;
         $("#acertos").text(cout_acertos)
     }else{
         ico = "down";
-        feed_texto = perguntas[i].feedbacks.negativo;
+        feed_texto = perguntas[i].feedbacks.negativo.texto;
     }
     col_ico.append('<div class="ico-feedback thumbs-'+ ico +'"></div>');
     row.append(col_ico);
@@ -244,22 +278,52 @@ let montar_slide_final = function(){
     let regra_vitoria;
     let acertos_para_vitoria = estruturageral.config.acertos_para_vitoria;
     
-    if (acertos_para_vitoria === 0 || acertos_para_vitoria === undefined || acertos_para_vitoria === null){
+    if (acertos_para_vitoria === 0 || typeof acertos_para_vitoria === "undefined" || acertos_para_vitoria === null){
         regra_vitoria = (nro_perguntas/2);
     }else {
         regra_vitoria = acertos_para_vitoria;
     }
+    let imagem = "";
+    let fonte = "";
     if(cout_acertos >= regra_vitoria){
-        estruturageral.mensagemfinal.positiva.forEach(element => {
+        estruturageral.mensagemfinal.positiva.texto.forEach(element => {
             mensagemFinal += "<p>" + element + "</p>";
             console.log("acerto")
         });
+
+    
+        let objImagem = estruturageral.mensagemfinal.positiva.imagem;
+        if(objImagem !== false && objImagem !== "false" && objImagem !== null && typeof objImagem !== "undefined"){ 
+            imagem = "<img src='" + objImagem.src + "' title='" + objImagem.title + "' alt='" + objImagem.alt + "' class='img-fluid imgMsgFinal'>"
+        }
+
+       
+        let objFonte = estruturageral.mensagemfinal.positiva.fonte;
+        if(objFonte !== false && objFonte !== "false" && objFonte !== null && typeof objFonte !== "undefined"){
+            fonte = "<p class='legenda'>" + objFonte + "</p>";
+        }
+        
+        
     }else{
-        estruturageral.mensagemfinal.negativa.forEach(element => {
+        estruturageral.mensagemfinal.negativa.texto.forEach(element => {
             mensagemFinal += "<p>" + element + "</p>";
             console.log("erro")
         });
+       
+        
+        let objImagem = estruturageral.mensagemfinal.negativa.imagem;
+        if(objImagem !== false && objImagem !== "false" && objImagem !== null && typeof objImagem !== "undefined"){ 
+            imagem = "<img src='" + objImagem.src + "' title='" + objImagem.title + "' alt='" + objImagem.alt + "' class='img-fluid imgMsgFinal'>"
+        }
+        
+        let objFonte = estruturageral.mensagemfinal.negativa.fonte;
+        if(objFonte !== false && objFonte !== "false" && objFonte !== null && typeof objFonte !== "undefined"){
+            fonte = "<p class='legenda'>" + objFonte + "</p>";
+        }
+        
     }
+    mensagemFinal = imagem + fonte +  mensagemFinal;
+    console.log(mensagemFinal)
     $(".mensagemfinal").html(mensagemFinal);
 }
 

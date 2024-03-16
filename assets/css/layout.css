@@ -11,6 +11,8 @@ body {
     background-repeat: no-repeat;
     background-color: #333;
     font-size: 26px;
+    padding-top: 80px; 
+    /* paddingtop 80 pra não ficar embaixo do topo fixo */
 }
 .bto-padrao {
   display: block;
@@ -154,7 +156,7 @@ header.senac {
     margin-top: 0;
     top: 0;
     padding-top: 0;
-    position: absolute;
+    position: fixed;
     width: 100%;
   }
 
@@ -287,6 +289,12 @@ button.bto-dragindrop-item
   }
 
   .respostas > .ondragging {  }
+
+
+  .legenda {
+    font-size: 16px;
+    text-align: center;
+  }
 
   @media screen and (max-width:1000px){
     #nome-curso.titulo-longo{

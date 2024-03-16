@@ -129,7 +129,7 @@ let templateQuiz = function (i){
     let nro_respostas = perguntas[i].respostas.length;
 
     for(a = 0; a <= nro_respostas-1; a++){
-        respostas.append('<button data-resp="' + a + '" type="button" data-label="'+ perguntas[i].respostas[a].botao +'" class="bto">'+ perguntas[i].respostas[a].texto +'</button>')
+        respostas.append('<button data-resp="' + a + '" type="button" data-label="'+ perguntas[i].respostas[a].ordem +'" class="bto">'+ perguntas[i].respostas[a].texto +'</button>')
 
     }
     topSlidePai.append(respostas);
@@ -182,7 +182,7 @@ let templateDragInDrop = function (i){
     let nro_respostas = perguntas[i].respostas.length;
    
     for(a = 0; a <= nro_respostas-1; a++){
-        respostas.append('<button draggable="true" data-resp="' + a + '" type="button" data-label="'+ perguntas[i].respostas[a].botao +'" class="bto-dragindrop-item"><i class="fa-solid fa-grip-lines-vertical"></i> '+ perguntas[i].respostas[a].texto +'</button>')
+        respostas.append('<button draggable="true" data-resp="' + a + '" type="button" data-label="'+ perguntas[i].respostas[a].ordem +'" class="bto-dragindrop-item"><i class="fa-solid fa-grip-lines-vertical"></i> '+ perguntas[i].respostas[a].texto +'</button>')
              
     }
 
