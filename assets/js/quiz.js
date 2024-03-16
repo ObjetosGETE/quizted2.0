@@ -1,9 +1,9 @@
 $(function (){
     init();
     montar_slides();
-
+    function pontuar(validacao){ if(validacao == true){ cout_acertos++; $("#acertos").text(cout_acertos) } }
     // Preciso corrigir este bloco para aceitar mais de uma resposta certa.
-    $(".respostas button.bto").click(function(){ // Clique para responder as perguntas do Quiz Clássico
+    $("body").on("click", ".respostas button.bto", function(){ // Clique para responder as perguntas do Quiz Clássico
         let userOption = $(this).index();
         let idSlide = $(this).parents(".top-slide").index();
         let respostasPai = $(this).parents(".top-slide").children(".respostas");
@@ -11,14 +11,7 @@ $(function (){
         respostasPai.children(".bto").addClass("desativar")
         let validacao = perguntas[idSlide].respostas[userOption].validacao;
 
-        if(validacao == true){
-            feedback(idSlide, true);
-            $(this).addClass("positivo")
-            
-        }else if(validacao == false){
-            feedback(idSlide, false);
-            $(this).addClass("negativo");
-        }
+        feedback(idSlide, validacao, function(){pontuar(validacao)});
         pergunta_atual++;
         $("#navegacao").fadeIn("fast")  
         mostrarNavPadrao("avancar")
@@ -41,15 +34,24 @@ $(function (){
 
     $("body").on("click", '[data-action="dragindrop-test"]', function (){ //Valida se as respostas arrastadas ao container estão corretas
         var respCorreta = 0;
-        var respID = $(".respostas").attr("id");
+        var respID = $($(".top-slide")[pergunta_atual-1]).find(".respostas").attr("id");
         var topSlidePai = $("#pergunta" + (pergunta_atual-1));
-        $(".container-alvo").each((index, el) => {
-            // console.log($(el).attr("id"), $("#" + $(el).attr("id") + " .bto-dragindrop-item").attr("data-resp"))
+       
+        $($(".top-slide")[pergunta_atual-1]).find(".container-alvo").each((index, el) => {
+
             let posTrue = $("#" + $(el).attr("id") + " .bto-dragindrop-item").attr("data-resp");
-            if(perguntas[respID].respostas[posTrue].validacao == true){
-                console.warn("as duas estão corretas!")
+            if(perguntas[pergunta_atual-1].respostas[posTrue].validacao == true){
+                respCorreta += 1;
             }
+
         })
+
+        if(respCorreta >= $($(".top-slide")[pergunta_atual-1]).find(".container-alvo").length){
+            console.warn("as duas estão corretas!");
+            pergunta_atual++;
+        }else {
+            console.error("Algo esta errado")
+        }
         mostrarNavPadrao("avancar");
     });
 
@@ -236,7 +238,7 @@ let montar_slides = function (){
 
 // Feedbacks de cada pergunta
 //
-let feedback = function (i, positivo_negativo){
+let feedback = function (i, positivo_negativo, pontuar){
     $("#pergunta" + i + " .txt").remove();
 
     let text_feedback = $("<div></div>");
@@ -251,8 +253,7 @@ let feedback = function (i, positivo_negativo){
     if(positivo_negativo === true){
         ico = "up";
         feed_texto = perguntas[i].feedbacks.positivo.texto;
-        cout_acertos++;
-        $("#acertos").text(cout_acertos)
+        pontuar();
     }else{
         ico = "down";
         feed_texto = perguntas[i].feedbacks.negativo.texto;
@@ -288,7 +289,7 @@ let montar_slide_final = function(){
     if(cout_acertos >= regra_vitoria){
         estruturageral.mensagemfinal.positiva.texto.forEach(element => {
             mensagemFinal += "<p>" + element + "</p>";
-            console.log("acerto")
+
         });
 
     
@@ -307,7 +308,7 @@ let montar_slide_final = function(){
     }else{
         estruturageral.mensagemfinal.negativa.texto.forEach(element => {
             mensagemFinal += "<p>" + element + "</p>";
-            console.log("erro")
+
         });
        
         
@@ -323,7 +324,7 @@ let montar_slide_final = function(){
         
     }
     mensagemFinal = imagem + fonte +  mensagemFinal;
-    console.log(mensagemFinal)
+
     $(".mensagemfinal").html(mensagemFinal);
 }
 
@@ -343,7 +344,7 @@ $("body").on("dragstart", ".bto-dragindrop-item", function (ev){
 // DRAG OVER
 $("body").on("dragover", ".container-alvo", function (ev){
 
-    if($("#" + $(this).attr("id") + " button").length < 1)
+    if($(ev.currentTarget).find("button").length < 1)
     {
         ev.preventDefault();
     }
@@ -381,18 +382,18 @@ $("body").on("drop", ".dragindrop", function (ev){
 var verificarContainers = function (el){
     // Quantos containers tem, quantos botões tem dentro do container 1 e do 2
     let coutEl = 0;
-    $(".container-alvo").each(function(index, el){
+    $($(".top-slide")[pergunta_atual-1]).find(".container-alvo").each(function(index, el){
         coutEl += $("#" + $($(".container-alvo")[index]).attr("id") + " button").length;
     })
     console.warn("O número de containers preenchidos são: ", coutEl)
+    console.log("Pergunta atual", pergunta_atual)
 
-    if(coutEl >= $(".container-alvo").length){ // Verifica o contador e dispara a validação
-        console.error("Tá tudo cheio!")
+    if(coutEl >=  $($(".top-slide")[pergunta_atual-1]).find(".container-alvo").length){ // Verifica o contador e dispara a validação
 
-        let idSlide = $(".respostas").attr("id");
+        let idSlide =  $($(".top-slide")[pergunta_atual-1]).find(".respostas").attr("id");
         let respostasPai = $(idSlide);
-        respostasPai.children(".bto").prop("disabled",true);
-        respostasPai.children(".bto").addClass("desativar")
+        respostasPai.find(".bto").prop("disabled",true);
+        respostasPai.find(".bto").addClass("desativar")
         //let validacao = perguntas[idSlide].respostas[userOption].validacao;
         mostrarNavPadrao("dragindrop-test");
     }else{
@@ -401,7 +402,7 @@ var verificarContainers = function (el){
 }
 
 var mostrarNavPadrao = (type) => {
-    console.log(type)
+
     if(type == "avancar"){
         $("#navegacao .bto-nav").text("Avançar");
         $("#navegacao .bto-nav").attr("data-action","quiz-nav");
