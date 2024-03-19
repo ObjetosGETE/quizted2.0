@@ -1,7 +1,10 @@
 $(function (){
     init();
     montar_slides();
-    function pontuar(validacao){ if(validacao == true){ cout_acertos++; $("#acertos").text(cout_acertos) } }
+    function pontuar(validacao){ 
+        if(validacao == true){ cout_acertos++; $("#acertos").text(cout_acertos) } 
+    }
+
     // Preciso corrigir este bloco para aceitar mais de uma resposta certa.
     $("body").on("click", ".respostas button.bto", function(){ // Clique para responder as perguntas do Quiz Clássico
         let userOption = $(this).index();
@@ -10,7 +13,11 @@ $(function (){
         respostasPai.children(".bto").prop("disabled",true);
         respostasPai.children(".bto").addClass("desativar")
         let validacao = perguntas[idSlide].respostas[userOption].validacao;
-
+        if(validacao === true ){
+            $(this).addClass("positivo");
+        }else{
+            $(this).addClass("negativo");
+        }
         feedback(idSlide, validacao, function(){pontuar(validacao)});
         pergunta_atual++;
         $("#navegacao").fadeIn("fast")  
@@ -33,11 +40,13 @@ $(function (){
     });
 
     $("body").on("click", '[data-action="dragindrop-test"]', function (){ //Valida se as respostas arrastadas ao container estão corretas
+        var slideAtual = pergunta_atual-1;
+        var top_slide_pai = $($(".top-slide")[slideAtual]);
+        var validacao = 0;
         var respCorreta = 0;
-        var respID = $($(".top-slide")[pergunta_atual-1]).find(".respostas").attr("id");
-        var topSlidePai = $("#pergunta" + (pergunta_atual-1));
-       
-        $($(".top-slide")[pergunta_atual-1]).find(".container-alvo").each((index, el) => {
+        var nro_respostasCorretas = top_slide_pai.find(".container-alvo").length;  
+        
+        top_slide_pai.find(".container-alvo").each((index, el) => {
 
             let posTrue = $("#" + $(el).attr("id") + " .bto-dragindrop-item").attr("data-resp");
             if(perguntas[pergunta_atual-1].respostas[posTrue].validacao == true){
@@ -45,27 +54,61 @@ $(function (){
             }
 
         })
+        var respostasFilhos = top_slide_pai.find(".respostas").children(".bto-dragindrop-item");
+        var containersRespFilhos = top_slide_pai.find(".container-alvo").children(".bto-dragindrop-item");
 
         if(respCorreta >= $($(".top-slide")[pergunta_atual-1]).find(".container-alvo").length){
-            console.warn("as duas estão corretas!");
+            top_slide_pai.find(".container-alvo").each((index, el) => {
+                let idCont = $(el).attr("id").split("container-alvo-")[1];
+                let elId = $(el).children().attr("data-resp");
+
+                
+                if(idCont == elId){
+                    validacao +=1; 
+                    $(el).children().addClass("positivo") // Caso esteja correto, adiciona a classe positivo
+                }else{
+                    $(el).children().addClass("negativo") // se não a classe negativo
+                }
+
+            });
+            console.log(validacao == respCorreta, validacao, respCorreta);
+            if(validacao == respCorreta){ // teste para ver se elas estão nos containers certos
+               validacao = true;
+                console.warn("as duas estão corretas!");
+                    
+            }
+            }else {
+                validacao = false;
+                console.error("Algo esta errado");
+                
+            }
+            desativar_dragindrop_item(respostasFilhos);
+            desativar_dragindrop_item(respostasFilhos);            desativar_dragindrop_item(respostasFilhos);            
+            desativar_dragindrop_item(containersRespFilhos);            
+            desativar_dragindrop_item(containersRespFilhos);            desativar_dragindrop_item(containersRespFilhos);    
+            
+            mostrarNavPadrao("avancar");
+
+            feedback(slideAtual, validacao, (e) => {
+                pontuar(validacao);
+            });
             pergunta_atual++;
-        }else {
-            console.error("Algo esta errado")
-        }
-        mostrarNavPadrao("avancar");
+            mostrarNavPadrao("avancar");
+        
     });
 
     $(".bto-nav-reiniciar").click(function(){ // Botão para reiniciar o quiz
         location.href="index.html"
     });
     
-    
-    
-
-    
- 
 });
 
+
+var desativar_dragindrop_item = (el) => {
+    el.prop("disabled",true);
+    el.prop("draggable","");
+    el.addClass("desativar")
+}
 // inicialização de variaveis importantes
 //
 //
@@ -161,16 +204,23 @@ let templateDragInDrop = function (i){
     txt.addClass("txt")
    
     let imgPergunta = "";
-    let objImgPergunta = perguntas[i].pergunta.imagem;
-    if(objImgPergunta !== false && typeof objImgPergunta.src !== "undefined"){
-        imgPergunta = '<img src="'+ objImgPergunta.src +'" alt="' + objImgPergunta.alt + ' title="'+ objImgPergunta.title +'" class="img-fluid" />';
-    }
-    
+    let objImgPergunta;
     let fonteImgPergunta = "";
-    let objfonteImgPergunta = objImgPergunta;
-    if(objfonteImgPergunta.fonte !== false && typeof objfonteImgPergunta.fonte !== "undefined"){
-        fonteImgPergunta = "<p class='legenda'>" + objfonteImgPergunta.fonte + "</p>";
+    let objfonteImgPergunta;
+    if(typeof perguntas[i].pergunta.imagem !== "undefined")  // Valida se é possivel colocar a imagem da pergunta e a fonte.
+    {
+        objImgPergunta = perguntas[i].pergunta.imagem;
+        imgPergunta = '<img src="'+ objImgPergunta.src +'" alt="' + objImgPergunta.alt + ' title="'+ objImgPergunta.title +'" class="img-fluid" />';
+
+        objfonteImgPergunta = objImgPergunta;
+        if(objfonteImgPergunta.fonte != false && typeof objfonteImgPergunta.fonte !== "undefined"){
+            fonteImgPergunta = "<p class='legenda'>" + objfonteImgPergunta.fonte + "</p>";
+        }
     }
+
+    
+
+    
 
     txt.append("<p>" + imgPergunta + fonteImgPergunta + perguntas[i].pergunta.texto + "</p>");
     pergunta.append(txt);
