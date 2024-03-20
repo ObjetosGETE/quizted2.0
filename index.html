@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="fa/css/all.min.css">
-    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fa/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TOP UC6 - Quiz</title>
@@ -15,18 +15,18 @@
 </head>
 <body onLoad="Javascript:document.getElementById('sncloader').style.display='none';">
     <div id='sncloader' class='over-loader'><div class="over-cell"><div id="sncload"></div></div></div>
-    <header id="topo" class="senac no-print position-relative">
+    <!-- <header id="topo" class="senac no-print">
         <div class="header-tecnicos container">
         	  <h1 id="nome-curso">Técnico em Óptica</h1>
-            <div id="logo-senac"><img src="img/logo-senac.png" alt="logo do senac"></div>
+            <div id="logo-senac"><img src="assets/img/logo-senac.png" alt="logo do senac"></div>
         </div>
         <div id="sombra"></div>
-    </header>
+    </header> -->
 
     <div id="top-quiz">
         <div id="top-slides">
         </div>
-        <div class="top-slide-final mt-5" style="display:none;">
+        <div class="top-slide-final" style="display:none;">
             <div class="pergunta pt-5 pb-5">
                 <p>O número de respostas corretas foi de:</p>
                 <p id="contador"><span id="acertos">0</span>/<span id="total">0</span></p>
@@ -34,17 +34,19 @@
                     
                 </div>
                 <nav class="text-center pt-4">
-                    <button class="bto-nav-reiniciar" type="button">Reiniciar</button>
+                    <button class="bto-padrao bto-nav-reiniciar" type="button">Reiniciar</button>
                 </nav>
             </div>
         </div>
         <nav id="navegacao" style="display: none;"> <!-- Sobe e desce quando necessário alem de aparecer e desaparecer -->
-            <button class="bto-nav" type="button">Avançar</button>
+            <button class="bto-padrao bto-nav" type="button">Avançar</button>
         </nav>
     </div>
-    <script src="js/jquery-3.7.1.min.js"></script>
-    <script src="js/bootstrap.bundle.js"></script>
-    <script src="js/perguntas.js"></script>
-    <script src="js/quiz.js"></script>
+
+
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.js"></script>
+    <script src="assets/js/perguntas.js"></script>
+    <script src="assets/js/quiz.js"></script>
 </body>
 </html>
